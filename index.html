@@ -4,14 +4,706 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AURA ACCESS - Trade With An Edge</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-blue: #0066ff;
+            --neon-purple: #c900ff;
+            --dark-bg: #0a0e27;
+            --card-bg: #1a1f3a;
+            --text-light: #e0e6ff;
+            --text-dim: #a0a8c0;
+            --glow-blue: #00d4ff;
+            --glow-purple: #ff00ff;
+            --accent-green: #00ff41;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+        }
+
+        /* NAVIGATION */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 14, 39, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 3px solid var(--glow-blue);
+            z-index: 1000;
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--glow-blue), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+            letter-spacing: 3px;
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 20px rgba(0, 212, 255, 0.5); }
+            50% { text-shadow: 0 0 40px rgba(201, 0, 255, 0.8); }
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            position: relative;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .nav-links a:hover {
+            color: var(--glow-blue);
+            text-shadow: 0 0 15px var(--glow-blue);
+        }
+
+        /* HERO SECTION */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-top: 60px;
+            overflow: hidden;
+        }
+
+        .market-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(0deg, transparent 24%, rgba(0, 212, 255, 0.1) 25%, rgba(0, 212, 255, 0.1) 26%, transparent 27%, transparent 74%, rgba(0, 212, 255, 0.1) 75%, rgba(0, 212, 255, 0.1) 76%, transparent 77%, transparent),
+                linear-gradient(90deg, transparent 24%, rgba(201, 0, 255, 0.1) 25%, rgba(201, 0, 255, 0.1) 26%, transparent 27%, transparent 74%, rgba(201, 0, 255, 0.1) 75%, rgba(201, 0, 255, 0.1) 76%, transparent 77%, transparent);
+            background-size: 50px 50px;
+            animation: gridShift 20s linear infinite;
+            z-index: 0;
+        }
+
+        @keyframes gridShift {
+            0% { background-position: 0 0, 0 0; }
+            100% { background-position: 50px 50px, 50px 50px; }
+        }
+
+        .glow-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.4;
+            animation: float 8s ease-in-out infinite;
+            z-index: 1;
+        }
+
+        .glow-1 {
+            width: 400px;
+            height: 400px;
+            background: var(--glow-blue);
+            top: 10%;
+            right: 20%;
+            animation-delay: 0s;
+        }
+
+        .glow-2 {
+            width: 300px;
+            height: 300px;
+            background: var(--neon-purple);
+            bottom: 20%;
+            left: 10%;
+            animation-delay: 2s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) translateX(0px); }
+            50% { transform: translateY(-50px) translateX(30px); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--glow-blue), var(--neon-purple), var(--glow-blue));
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 3s ease infinite;
+            letter-spacing: 5px;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
+            line-height: 1.2;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .hero-subtitle {
+            font-size: 2rem;
+            color: var(--glow-purple);
+            margin-bottom: 3rem;
+            letter-spacing: 3px;
+            text-shadow: 0 0 20px rgba(201, 0, 255, 0.6);
+            font-weight: bold;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* BUTTONS */
+        .btn {
+            padding: 1rem 2rem;
+            border: 2px solid;
+            text-decoration: none;
+            font-weight: 700;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            font-size: 0.95rem;
+        }
+
+        .btn-primary {
+            color: var(--dark-bg);
+            border-color: var(--glow-blue);
+            background: var(--glow-blue);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.8);
+            transform: translateY(-3px);
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+        }
+
+        .btn-secondary {
+            color: var(--glow-blue);
+            border-color: var(--glow-blue);
+            background: transparent;
+            box-shadow: inset 0 0 20px rgba(0, 212, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            color: var(--dark-bg);
+            background: var(--glow-blue);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.8);
+            transform: translateY(-3px);
+        }
+
+        .btn-tertiary {
+            color: var(--neon-purple);
+            border-color: var(--neon-purple);
+            background: transparent;
+            box-shadow: inset 0 0 20px rgba(201, 0, 255, 0.2);
+        }
+
+        .btn-tertiary:hover {
+            color: var(--dark-bg);
+            background: var(--neon-purple);
+            box-shadow: 0 0 30px rgba(201, 0, 255, 0.8);
+            transform: translateY(-3px);
+        }
+
+        .full-width {
+            width: 100%;
+        }
+
+        /* SECTION TITLE */
+        .section-title {
+            font-size: 3rem;
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 3rem;
+            letter-spacing: 3px;
+            background: linear-gradient(135deg, var(--glow-blue), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* PRODUCTS SECTION */
+        .products {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, var(--dark-bg), rgba(26, 31, 58, 0.5));
+            position: relative;
+        }
+
+        .products::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--glow-blue), transparent);
+        }
+
+        .products-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            background: var(--card-bg);
+            border: 2px solid;
+            border-radius: 15px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .yacht-club {
+            border-color: var(--neon-purple);
+            box-shadow: 0 0 30px rgba(201, 0, 255, 0.2);
+        }
+
+        .yacht-club:hover {
+            box-shadow: 0 0 50px rgba(201, 0, 255, 0.4);
+            transform: translateY(-10px);
+            border-color: var(--glow-purple);
+        }
+
+        .aura-zones {
+            border-color: var(--glow-blue);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.2);
+        }
+
+        .aura-zones:hover {
+            box-shadow: 0 0 50px rgba(0, 212, 255, 0.4);
+            transform: translateY(-10px);
+        }
+
+        .aura-club {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 30px rgba(0, 102, 255, 0.2);
+        }
+
+        .aura-club:hover {
+            box-shadow: 0 0 50px rgba(0, 102, 255, 0.4);
+            transform: translateY(-10px);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid rgba(0, 212, 255, 0.3);
+            padding-bottom: 1rem;
+        }
+
+        .card-header h3 {
+            font-size: 1.8rem;
+            letter-spacing: 2px;
+            color: var(--glow-blue);
+        }
+
+        .elite-badge {
+            background: linear-gradient(135deg, var(--neon-purple), var(--glow-purple));
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            box-shadow: 0 0 15px rgba(201, 0, 255, 0.5);
+        }
+
+        .price {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--glow-blue);
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+        }
+
+        .period {
+            font-size: 1rem;
+            color: var(--text-dim);
+        }
+
+        .card-description {
+            color: var(--text-dim);
+            margin: 1.5rem 0;
+            line-height: 1.6;
+        }
+
+        .card-features {
+            list-style: none;
+            margin: 2rem 0;
+        }
+
+        .card-features li {
+            padding: 0.8rem 0;
+            color: var(--text-light);
+            border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+            transition: all 0.2s ease;
+        }
+
+        .card-features li:hover {
+            padding-left: 0.5rem;
+            color: var(--glow-blue);
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+        }
+
+        /* LIVE FEED SECTION */
+        .live-feed {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, rgba(26, 31, 58, 0.5), var(--dark-bg));
+            position: relative;
+        }
+
+        .live-feed::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--neon-purple), transparent);
+        }
+
+        .feed-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .feed-box {
+            background: var(--card-bg);
+            border: 2px solid var(--glow-blue);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.2);
+        }
+
+        .feed-header {
+            background: linear-gradient(90deg, rgba(0, 102, 255, 0.2), rgba(0, 212, 255, 0.2));
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--glow-blue);
+            letter-spacing: 2px;
+            color: var(--glow-blue);
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+            font-weight: bold;
+        }
+
+        .trades-feed {
+            padding: 2rem;
+            min-height: 400px;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .trade-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem;
+            margin-bottom: 0.8rem;
+            background: rgba(0, 212, 255, 0.05);
+            border-left: 4px solid var(--accent-green);
+            border-radius: 5px;
+            animation: slideIn 0.5s ease;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            font-weight: bold;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .trade-symbol {
+            font-weight: 700;
+            color: var(--glow-blue);
+            min-width: 80px;
+        }
+
+        .trade-pnl {
+            font-weight: 700;
+            color: var(--accent-green);
+            text-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+            min-width: 120px;
+            text-align: right;
+        }
+
+        .trade-time {
+            color: var(--text-dim);
+            font-size: 0.85rem;
+        }
+
+        /* TESTIMONIALS SECTION */
+        .testimonials {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, var(--dark-bg), rgba(26, 31, 58, 0.5));
+            position: relative;
+        }
+
+        .testimonials::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--glow-blue), transparent);
+        }
+
+        .testimonials-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .testimonial-card {
+            background: var(--card-bg);
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 10px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .testimonial-card:hover {
+            border-color: var(--glow-blue);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .trader-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .trader-name {
+            font-weight: 700;
+            color: var(--glow-blue);
+            letter-spacing: 1px;
+        }
+
+        .trader-badge {
+            background: rgba(0, 212, 255, 0.2);
+            color: var(--glow-blue);
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            border: 1px solid var(--glow-blue);
+        }
+
+        .testimonial-text {
+            color: var(--text-light);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
+        .testimonial-stats {
+            color: var(--accent-green);
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+        }
+
+        /* FAQ SECTION */
+        .faq {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, rgba(26, 31, 58, 0.5), var(--dark-bg));
+            position: relative;
+        }
+
+        .faq::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--neon-purple), transparent);
+        }
+
+        .faq-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .faq-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .faq-item {
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 10px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            border-color: var(--glow-blue);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+            background: rgba(0, 212, 255, 0.05);
+        }
+
+        .faq-item h3 {
+            color: var(--glow-blue);
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+            font-size: 1.1rem;
+        }
+
+        .faq-item p {
+            color: var(--text-dim);
+            line-height: 1.7;
+        }
+
+        /* FOOTER */
+        .footer {
+            background: rgba(10, 14, 39, 0.98);
+            border-top: 2px solid var(--primary-blue);
+            padding: 4rem 2rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h4 {
+            color: var(--glow-blue);
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+            font-size: 1.1rem;
+        }
+
+        .footer-section p {
+            color: var(--text-dim);
+            line-height: 1.6;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--glow-blue);
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(0, 212, 255, 0.2);
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--card-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--glow-blue);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--neon-purple);
+        }
+
+        @media (max-width: 768px) {
+            .hero-title { font-size: 3rem; }
+            .hero-subtitle { font-size: 1.3rem; }
+            .hero-buttons { flex-direction: column; }
+            .btn { width: 100%; }
+            .nav-links { flex-direction: column; gap: 1rem; }
+            .section-title { font-size: 2rem; }
+        }
+    </style>
 </head>
 <body>
     <!-- NAVIGATION -->
     <nav class="navbar">
         <div class="nav-container">
-            <div class="logo">AURA ACCESS</div>
+            <div class="logo">⚡ AURA ACCESS ⚡</div>
             <ul class="nav-links">
                 <li><a href="#products">PRODUCTS</a></li>
                 <li><a href="#feed">LIVE FEED</a></li>
@@ -23,14 +715,14 @@
 
     <!-- HERO SECTION -->
     <section class="hero">
-        <div class="market-background" id="marketBg"></div>
+        <div class="market-background"></div>
         <div class="hero-content">
-            <h1 class="hero-title">AURA ACCESS</h1>
-            <p class="hero-subtitle">Trade With An Edge</p>
+            <h1 class="hero-title">⚡ AURA ACCESS ⚡</h1>
+            <p class="hero-subtitle">>>> TRADE WITH AN EDGE <<<</p>
             <div class="hero-buttons">
-                <a href="https://discord.gg/s7jVAf46r" class="btn btn-primary" target="_blank">Join Aura Club</a>
-                <a href="#products" class="btn btn-secondary">Get Aura Zones</a>
-                <a href="https://discord.gg/s7jVAf46r" class="btn btn-tertiary" target="_blank">Apply For Yacht Club AI</a>
+                <a href="https://discord.gg/s7jVAf46r" class="btn btn-primary" target="_blank">💰 JOIN AURA CLUB 💰</a>
+                <a href="#products" class="btn btn-secondary">📊 GET AURA ZONES 📊</a>
+                <a href="https://discord.gg/s7jVAf46r" class="btn btn-tertiary" target="_blank">🛥️ YACHT CLUB AI 🛥️</a>
             </div>
         </div>
         <div class="glow-orb glow-1"></div>
@@ -40,13 +732,13 @@
     <!-- PRODUCTS SECTION -->
     <section class="products" id="products">
         <div class="products-container">
-            <h2 class="section-title">OUR ARSENAL</h2>
+            <h2 class="section-title">>>> OUR ARSENAL <<<</h2>
             
             <!-- Yacht Club AI -->
             <div class="product-card yacht-club">
                 <div class="card-header">
-                    <h3>YACHT CLUB AI</h3>
-                    <span class="elite-badge">ELITE</span>
+                    <h3>🛥️ YACHT CLUB AI</h3>
+                    <span class="elite-badge">⭐ ELITE ⭐</span>
                 </div>
                 <p class="card-description">Private onboarding through Discord tickets only. The most exclusive tier for serious traders.</p>
                 <ul class="card-features">
@@ -55,6 +747,7 @@
                     <li>✓ VIP Market Alerts</li>
                     <li>✓ Private Trading Channel</li>
                     <li>✓ Direct Support Access</li>
+                    <li>✓ 1-3 Days Indicator Delivery</li>
                 </ul>
                 <a href="https://discord.gg/s7jVAf46r" class="btn btn-primary full-width" target="_blank">SUBMIT TICKET IN DISCORD</a>
             </div>
@@ -62,7 +755,7 @@
             <!-- Aura Zones -->
             <div class="product-card aura-zones">
                 <div class="card-header">
-                    <h3>AURA ZONES</h3>
+                    <h3>📊 AURA ZONES</h3>
                     <span class="price">$35<span class="period">/month</span></span>
                 </div>
                 <p class="card-description">Advanced zones indicator for cleaner entries and exits. Your trading radar.</p>
@@ -72,14 +765,15 @@
                     <li>✓ Real-Time Alerts</li>
                     <li>✓ MT4/MT5 Compatible</li>
                     <li>✓ Community Support</li>
+                    <li>✓ 1-3 Days Delivery</li>
                 </ul>
-                <a href="https://square.link/u/tSPI77cB" class="btn btn-secondary full-width" target="_blank">GET AURA ZONES</a>
+                <a href="https://square.link/u/tSPI77cB" class="btn btn-secondary full-width" target="_blank">GET AURA ZONES - $35</a>
             </div>
 
             <!-- Aura Club -->
             <div class="product-card aura-club">
                 <div class="card-header">
-                    <h3>AURA CLUB</h3>
+                    <h3>💰 AURA CLUB</h3>
                     <span class="price">$65<span class="period">/month</span></span>
                 </div>
                 <p class="card-description">Live signals, real trades, market thoughts, and private community access. The full arsenal.</p>
@@ -89,9 +783,9 @@
                     <li>✓ Daily Market Analysis</li>
                     <li>✓ Private Discord Community</li>
                     <li>✓ Priority Support</li>
-                    <li>✓ Strategy Breakdowns</li>
+                    <li>✓ 1-3 Days Delivery</li>
                 </ul>
-                <a href="https://square.link/u/Jmf5vk51" class="btn btn-primary full-width" target="_blank">GET AURA CLUB</a>
+                <a href="https://square.link/u/Jmf5vk51" class="btn btn-primary full-width" target="_blank">GET AURA CLUB - $65</a>
             </div>
         </div>
     </section>
@@ -99,9 +793,9 @@
     <!-- LIVE FEED SECTION -->
     <section class="live-feed" id="feed">
         <div class="feed-container">
-            <h2 class="section-title">LIVE EXECUTIONS</h2>
+            <h2 class="section-title">>>> LIVE EXECUTIONS <<<</h2>
             <div class="feed-box">
-                <div class="feed-header">AURA CLUB MEMBERS ONLY</div>
+                <div class="feed-header">🔴 AURA CLUB MEMBERS ONLY 🔴</div>
                 <div class="trades-feed" id="tradesFeed">
                     <!-- Trades will be generated by JavaScript -->
                 </div>
@@ -112,42 +806,42 @@
     <!-- TESTIMONIALS SECTION -->
     <section class="testimonials" id="testimonials">
         <div class="testimonials-container">
-            <h2 class="section-title">TRADER FEEDBACK</h2>
+            <h2 class="section-title">>>> TRADER FEEDBACK <<<</h2>
             <div class="testimonials-grid">
                 <div class="testimonial-card">
                     <div class="trader-header">
                         <div class="trader-name">@AlphaScalper</div>
-                        <div class="trader-badge">Verified Trader</div>
+                        <div class="trader-badge">✅ Verified</div>
                     </div>
                     <p class="testimonial-text">"Aura Zones completely changed my entry game. The accuracy is insane. Already profitable in week 1."</p>
-                    <div class="testimonial-stats">+$4,200 in 7 days</div>
+                    <div class="testimonial-stats">+$4,200 in 7 days 📈</div>
                 </div>
 
                 <div class="testimonial-card">
                     <div class="trader-header">
                         <div class="trader-name">@FuturesKing</div>
-                        <div class="trader-badge">Yacht Club Member</div>
+                        <div class="trader-badge">🛥️ Yacht</div>
                     </div>
                     <p class="testimonial-text">"The live signals from Aura Club hit different. No cap, this is the real deal. Signals are consistent and profitable."</p>
-                    <div class="testimonial-stats">+$8,900 in 2 weeks</div>
+                    <div class="testimonial-stats">+$8,900 in 2 weeks 📈</div>
                 </div>
 
                 <div class="testimonial-card">
                     <div class="trader-header">
                         <div class="trader-name">@TradingGrind</div>
-                        <div class="trader-badge">Aura Club Member</div>
+                        <div class="trader-badge">💰 Club</div>
                     </div>
                     <p class="testimonial-text">"Been through every discord, every course. This is the first one where I actually see consistent results. Mind blown."</p>
-                    <div class="testimonial-stats">+$6,500 in 10 days</div>
+                    <div class="testimonial-stats">+$6,500 in 10 days 📈</div>
                 </div>
 
                 <div class="testimonial-card">
                     <div class="trader-header">
                         <div class="trader-name">@EliteExecutor</div>
-                        <div class="trader-badge">Yacht Club Member</div>
+                        <div class="trader-badge">🛥️ Yacht</div>
                     </div>
                     <p class="testimonial-text">"The personalized onboarding is worth it alone. But the strategies? They're generational. Yacht Club is absolutely worth it."</p>
-                    <div class="testimonial-stats">+$12,100 in 15 days</div>
+                    <div class="testimonial-stats">+$12,100 in 15 days 📈</div>
                 </div>
             </div>
         </div>
@@ -156,45 +850,45 @@
     <!-- FAQ SECTION -->
     <section class="faq" id="faq">
         <div class="faq-container">
-            <h2 class="section-title">FAQ</h2>
+            <h2 class="section-title">>>> FAQ <<<</h2>
             <div class="faq-grid">
                 <div class="faq-item">
-                    <h3>How do I get access?</h3>
-                    <p>Click on any product above and follow the payment link (Square). For Yacht Club AI, join our Discord and submit a ticket for private onboarding.</p>
+                    <h3>❓ How do I get access?</h3>
+                    <p>Click on any product above and follow the payment link (Square). After payment, Discord notification sent to admin within 1-3 days. For Yacht Club AI, join our Discord and submit a ticket for private onboarding.</p>
                 </div>
 
                 <div class="faq-item">
-                    <h3>How do I receive my product?</h3>
-                    <p>After payment, you'll receive instant access to Discord and all indicators via MT4/MT5 or your preferred platform within 24 hours.</p>
+                    <h3>⏱️ When do I get my indicator?</h3>
+                    <p>After purchase, you'll receive a Discord notification. Indicators delivered within 1-3 days via Discord DM. Check your notifications!</p>
                 </div>
 
                 <div class="faq-item">
-                    <h3>What platforms do you support?</h3>
+                    <h3>🖥️ What platforms do you support?</h3>
                     <p>MetaTrader 4, MetaTrader 5, TradingView, and cTrader. All indicators work seamlessly across these platforms.</p>
                 </div>
 
                 <div class="faq-item">
-                    <h3>Is this for beginners?</h3>
+                    <h3>👶 Is this for beginners?</h3>
                     <p>No. We cater to intermediate to advanced traders. If you're new, we recommend starting with Aura Zones to learn before jumping into live signals.</p>
                 </div>
 
                 <div class="faq-item">
-                    <h3>What's the difference between tiers?</h3>
+                    <h3>🆚 What's the difference between tiers?</h3>
                     <p><strong>Aura Zones:</strong> Indicator only. <strong>Aura Club:</strong> Indicator + Live signals + Community. <strong>Yacht Club:</strong> Everything + Private mentoring.</p>
                 </div>
 
                 <div class="faq-item">
-                    <h3>Can I cancel anytime?</h3>
+                    <h3>❌ Can I cancel anytime?</h3>
                     <p>Yes. Monthly subscriptions can be cancelled anytime. No lockout periods. You keep access until your billing cycle ends.</p>
                 </div>
 
                 <div class="faq-item">
-                    <h3>Do you offer refunds?</h3>
+                    <h3>💸 Do you offer refunds?</h3>
                     <p>We offer a 7-day money-back guarantee if you're not satisfied. After that, subscriptions are non-refundable but can be paused.</p>
                 </div>
 
                 <div class="faq-item">
-                    <h3>Is this a trading guarantee?</h3>
+                    <h3>⚠️ Is this a trading guarantee?</h3>
                     <p>No. Past performance doesn't guarantee future results. We provide tools and signals, but YOU are responsible for your trades. Risk management is crucial.</p>
                 </div>
             </div>
@@ -205,27 +899,168 @@
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-section">
-                <h4>AURA ACCESS</h4>
+                <h4>⚡ AURA ACCESS ⚡</h4>
                 <p>Trade With An Edge</p>
             </div>
             <div class="footer-section">
-                <h4>LINKS</h4>
+                <h4>🔗 LINKS</h4>
                 <ul>
-                    <li><a href="https://discord.gg/s7jVAf46r" target="_blank">Discord Community</a></li>
-                    <li><a href="#products">Products</a></li>
-                    <li><a href="#faq">FAQ</a></li>
+                    <li><a href="https://discord.gg/s7jVAf46r" target="_blank">🎮 Discord Community</a></li>
+                    <li><a href="#products">📊 Products</a></li>
+                    <li><a href="#faq">❓ FAQ</a></li>
                 </ul>
             </div>
             <div class="footer-section">
-                <h4>DISCLAIMER</h4>
+                <h4>⚠️ DISCLAIMER</h4>
                 <p>Trading futures is risky. You can lose more than you invest. This is not financial advice. Always use proper risk management.</p>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2026 AURA ACCESS. All rights reserved. | Designed for serious traders.</p>
+            <p>&copy; 2026 AURA ACCESS. All rights reserved. | Designed for serious traders. | Get notified on Discord after purchase! 🚀</p>
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+        // Live Trades Feed Generator
+        const trades = [
+            { symbol: 'NQ', pnl: '+$420', type: 'win' },
+            { symbol: 'ES', pnl: '+$680', type: 'tp-hit' },
+            { symbol: 'NQ', pnl: '+$310', type: 'runner' },
+            { symbol: 'ES', pnl: '+$525', type: 'win' },
+            { symbol: 'NQ', pnl: '+$890', type: 'tp-hit' },
+            { symbol: 'ES', pnl: '+$275', type: 'win' },
+            { symbol: 'NQ', pnl: '+$445', type: 'runner' },
+            { symbol: 'ES', pnl: '+$710', type: 'tp-hit' },
+            { symbol: 'NQ', pnl: '+$335', type: 'win' },
+            { symbol: 'ES', pnl: '+$620', type: 'tp-hit' },
+        ];
+
+        function generateTradesFeed() {
+            const feedContainer = document.getElementById('tradesFeed');
+            const tradesCopy = [...trades];
+
+            function addTrade() {
+                if (tradesCopy.length === 0) {
+                    tradesCopy.push(...trades);
+                }
+
+                const randomIndex = Math.floor(Math.random() * tradesCopy.length);
+                const trade = tradesCopy.splice(randomIndex, 1)[0];
+                
+                const tradeElement = document.createElement('div');
+                tradeElement.className = 'trade-item';
+                
+                const now = new Date();
+                const timeString = now.toLocaleTimeString('en-US', { 
+                    hour: '2-digit', 
+                    minute: '2-digit', 
+                    second: '2-digit',
+                    hour12: false 
+                });
+
+                tradeElement.innerHTML = `
+                    <div class="trade-symbol">${trade.symbol}</div>
+                    <div class="trade-pnl">${trade.pnl}</div>
+                    <div class="trade-time">${timeString}</div>
+                `;
+
+                feedContainer.insertBefore(tradeElement, feedContainer.firstChild);
+
+                while (feedContainer.children.length > 15) {
+                    feedContainer.removeChild(feedContainer.lastChild);
+                }
+            }
+
+            for (let i = 0; i < 5; i++) {
+                addTrade();
+            }
+
+            setInterval(() => {
+                addTrade();
+            }, 2000 + Math.random() * 2000);
+        }
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#' && document.querySelector(href)) {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.product-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'all 0.6s ease';
+            observer.observe(card);
+        });
+
+        document.querySelectorAll('.testimonial-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'all 0.6s ease';
+            observer.observe(card);
+        });
+
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateY(20px)';
+            item.style.transition = 'all 0.6s ease';
+            observer.observe(item);
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            generateTradesFeed();
+            
+            document.addEventListener('mousemove', (e) => {
+                const glowOrbs = document.querySelectorAll('.glow-orb');
+                glowOrbs.forEach(orb => {
+                    const x = e.clientX / window.innerWidth;
+                    const y = e.clientY / window.innerHeight;
+                    
+                    orb.style.transform = `translate(${x * 50}px, ${y * 50}px)`;
+                });
+            });
+        });
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            const sections = document.querySelectorAll('section');
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').slice(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
